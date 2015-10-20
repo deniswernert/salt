@@ -244,9 +244,14 @@ def status(name):
                 line = line.rstrip() + result[line_number]
 
             # Parse Brick data
-            brick, port, online, pid = line.split()[1:]
+            bits = line.split()[1:]
+            rdma_port = 0
+            if len(bits) == 5:
+              brick, port, rdma_port, online, pid = bits
+            else:
+              brick, port, online, pid = bits
             host, path = brick.split(':')
-            data = {'port': port, 'pid': pid, 'host': host, 'path': path}
+            data = {'port': port, 'pid': pid, 'host': host, 'path': path, 'rdma_port': rdma_port}
             if online == 'Y':
                 data['online'] = True
             else:
@@ -260,7 +265,12 @@ def status(name):
                 line = line.rstrip() + result[line_number]
 
             # Parse NFS Server data
-            host, port, online, pid = line.split()[3:]
+            bits = line.split()[3:]
+            rdma_port = "N/A"
+            if len(bits) == 5:
+              host, port, rdma_port, online, pid = bits
+            else:
+              host, port, online, pid = bits
             data = {'port': port, 'pid': pid}
             if online == 'Y':
                 data['online'] = True
@@ -275,7 +285,12 @@ def status(name):
                 line = line.rstrip() + result[line_number]
 
             # Parse NFS Server data
-            host, port, online, pid = line.split()[3:]
+            bits = line.split()[3:]
+            rdma_port = "N/A"
+            if len(bits) == 5:
+              host, port, rdma_port, online, pid = bits
+            else:
+              host, port, online, pid = bits
             data = {'port': port, 'pid': pid}
             if online == 'Y':
                 data['online'] = True
